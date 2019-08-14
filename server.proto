@@ -3,7 +3,9 @@ package server;
 
 option go_package = "pb";
 
-message StartReq {}
+message StartReq {
+    string name =1;
+}
 message StartResp {
   string id = 1;
 }

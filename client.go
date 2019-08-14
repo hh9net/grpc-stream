@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	pb "./pb"
@@ -20,13 +21,23 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	i:=0
+	go func(){
+		for {
+			i++
+			reqq := &pb.StartReq{Name: "wangyi!!!"+strconv.Itoa(i)}
+			stream.Send(reqq)
+			time.Sleep(time.Second/20000000)
+		}
 
-	resp, err := stream.Recv()
-	if err != nil {
-		panic(err)
+	}()
+	for {
+		resp, err := stream.Recv()
+		if err != nil {
+			panic(err)
+		}
+		log.Println("recv resp:", resp.Id)
 	}
-	log.Println("recv resp:", resp.Id)
-
 	time.Sleep(time.Second * 5)
 	log.Println("sleep done")
 
